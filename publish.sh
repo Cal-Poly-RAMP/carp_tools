@@ -1,2 +1,2 @@
-docker-squash -t fwilken/ee431_toolchain:v1.1s ee431_toolchain
-docker push fwilken/ee431_toolchain:v1.1s
+docker-squash -t fwilken/carp_tools:latest carp_tools
+docker push fwilken/carp_tools:latest

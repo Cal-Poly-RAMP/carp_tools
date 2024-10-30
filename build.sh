@@ -20,7 +20,7 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
 
 fi
 
-docker build . -t ee431_toolchain
+docker build . -t carp_tools
 if ! [ $? -eq 0 ]; then
     sudo groupadd docker || true
     sudo usermod -aG docker $USER

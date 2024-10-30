@@ -1,8 +1,8 @@
 # Select Local or Remote Container
 if [ "$1" = "-l" ] || [ "$1" = "--local" ]; then
-    CONTAINER=ee431_toolchain
+    CONTAINER=carp_tools
 else 
-    CONTAINER=fwilken/ee431_toolchain:v1.1s
+    CONTAINER=fwilken/carp_tools:latest
 fi
 
 # Mac Install
@@ -14,17 +14,17 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
 
     docker run -it --rm \
 	--platform linux/amd64 \
-        -v $(pwd)/workspace:/home/ee431/workspace:rw \
+        -v $(pwd)/workspace:/home/carp/workspace:rw \
         -e DISPLAY=host.docker.internal:0 \
         -e "TERM=xterm-256color"\
-        --hostname ee431-docker \
+        --hostname carp_docker \
         $CONTAINER bash
 
 # Linux/WSL Install
 else 
     set -x
     xhost local:root
-    docker run -it --rm -v $(pwd)/workspace:/home/ee431/workspace:rw\
+    docker run -it --rm -v $(pwd)/workspace:/home/carp/workspace:rw\
                 -v /tmp/.X11-unix:/tmp/.X11-unix \
                 -v /mnt/wslg:/mnt/wslg \
                 -e DISPLAY \
