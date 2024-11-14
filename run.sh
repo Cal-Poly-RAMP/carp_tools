@@ -17,7 +17,7 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
         -v $(pwd)/workspace:/home/carp/workspace:rw \
         -e DISPLAY=host.docker.internal:0 \
         -e "TERM=xterm-256color"\
-        --hostname carp_docker \
+        --hostname carp-docker \
         $CONTAINER bash
 
 # Linux/WSL Install
@@ -32,7 +32,7 @@ else
                 -e XDG_RUNTIME_DIR \
                 -e PULSE_SERVER \
                 -e "TERM=xterm-256color"\
-                --hostname ee431-docker \
+                --hostname carp-docker \
                 --net=host \
                 $CONTAINER bash
 fi

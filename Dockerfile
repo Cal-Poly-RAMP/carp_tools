@@ -9,7 +9,7 @@ WORKDIR /home/carp
 
 RUN apt update
 # Install Core Tools
-RUN apt install -y git vim bsdmainutils wget make
+RUN apt install -y git vim bsdmainutils wget make gcc g++
 
 # Install RISC-V Toolchain
 RUN wget https://github.com/stnolting/riscv-gcc-prebuilt/releases/download/rv32i-131023/riscv32-unknown-elf.gcc-13.2.0.tar.gz &&\
