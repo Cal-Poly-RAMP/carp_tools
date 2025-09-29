@@ -1,9 +1,22 @@
+#!/usr/bin/env bash
+
+# Get Current Directory
+ABS_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" && pwd )
+
 # Select Local or Remote Container
 if [ "$1" = "-l" ] || [ "$1" = "--local" ]; then
-    CONTAINER=carp_tools
+    CONTAINER=asic
 else 
-    CONTAINER=fwilken/carp_tools:latest
+    CONTAINER=fwilken/asic:alpha
 fi
+
+TERM=xterm-256color
+HOST=asic
+
+if [ ! -d $ABS_DIR/workspace ]; then
+	mkdir -p $ABS_DIR/workspace
+fi
+
 
 # Mac Install
 if [[ "$OSTYPE" == "darwin"* ]]; then
@@ -13,26 +26,27 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
     xhost +localhost
 
     docker run -it --rm \
-	--platform linux/amd64 \
-        -v $(pwd)/workspace:/home/carp/workspace:rw \
+        -v $ABS_DIR/workspace:/home/$HOST/workspace:rw \
+        -v ~/.ssh:/home/$HOST/.ssh\
+        -v ~/.gitconfig:/home/$HOST/.gitconfig \
         -e DISPLAY=host.docker.internal:0 \
-        -e "TERM=xterm-256color"\
-        --hostname carp-docker \
-        $CONTAINER bash
+        -e "TERM=$TERM"\
+        --hostname $HOST \
+        $CONTAINER -s bash
 
 # Linux/WSL Install
 else 
     set -x
     xhost local:root
-    docker run -it --rm -v $(pwd)/workspace:/home/carp/workspace:rw\
+    docker run -it --rm \
+                -v $ABS_DIR/workspace:/home/$HOST/workspace:rw\
+                -v ~/.ssh:/home/$HOST/.ssh\
+                -v ~/.gitconfig:/home/$HOST/.gitconfig \
                 -v /tmp/.X11-unix:/tmp/.X11-unix \
                 -v /mnt/wslg:/mnt/wslg \
                 -e DISPLAY \
-                -e WAYLAND_DISPLAY \
-                -e XDG_RUNTIME_DIR \
-                -e PULSE_SERVER \
-                -e "TERM=xterm-256color"\
-                --hostname carp-docker \
+                -e "TERM=$TERM"\
+                --hostname $HOST \
                 --net=host \
-                $CONTAINER bash
+                $CONTAINER -s /bin/bash
 fi
